@@ -12,23 +12,23 @@
     </div>
     
     <div class="pasos">
-      <div class="paso" [class.activo]="pasoActual === 1" [class.completado]="pasoActual > 1" (click)="irAPaso(1)">
+      <div class="paso" [class.activo]="pasoActual === 1" [class.completado]="pasoActual > 1">
         <span class="paso-numero"><img src="assets/icons/restaurante.png" alt="Restaurante"></span>
         <span class="paso-texto">Restaurante</span>
       </div>
-      <div class="paso" [class.activo]="pasoActual === 2" [class.completado]="pasoActual > 2" (click)="irAPaso(2)">
+      <div class="paso" [class.activo]="pasoActual === 2" [class.completado]="pasoActual > 2">
         <span class="paso-numero"><img src="assets/icons/zona.png" alt="Zona"></span>
         <span class="paso-texto">Zona</span>
       </div>
-      <div class="paso" [class.activo]="pasoActual === 3" [class.completado]="pasoActual > 3" (click)="irAPaso(3)">
+      <div class="paso" [class.activo]="pasoActual === 3" [class.completado]="pasoActual > 3">
         <span class="paso-numero"><img src="assets/icons/reserva.png" alt="Fecha"></span>
         <span class="paso-texto">Fecha y Hora</span>
       </div>
-      <div class="paso" [class.activo]="pasoActual === 4" [class.completado]="pasoActual > 4" (click)="irAPaso(4)">
+      <div class="paso" [class.activo]="pasoActual === 4" [class.completado]="pasoActual > 4">
         <span class="paso-numero"><img src="assets/icons/personas.png" alt="Personas"></span>
         <span class="paso-texto">Personas</span>
       </div>
-      <div class="paso" [class.activo]="pasoActual === 5" [class.completado]="pasoActual > 5" (click)="irAPaso(5)">
+      <div class="paso" [class.activo]="pasoActual === 5" [class.completado]="pasoActual > 5">
         <span class="paso-numero"><img src="assets/icons/cliente.png" alt="Cliente"></span>
         <span class="paso-texto">Datos Cliente</span>
       </div>
@@ -141,7 +141,7 @@
         <div *ngIf="!capacidadSuficiente" class="alert-error">
           No hay mesas disponibles para {{ cantidadPersonas }} persona(s).
         </div>
-        
+
         <div class="seleccion-rapida">
           <h4>Selección Rápida</h4>
           <div class="opciones-rapidas">

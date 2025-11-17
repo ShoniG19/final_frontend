@@ -179,13 +179,24 @@ export class FormularioComponent {
 
     const offset = primerDia.getDay();
 
-    const cells: Array<{ num: number | null; inactive?: boolean }> = [];
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const cells: Array<{ num: number | null; inactive?: boolean; past?: boolean }> = [];
     for (let i = 0; i < offset; i++) {
       cells.push({ num: null, inactive: true });
     }
 
     for (let d = 1; d <= ultimoDia.getDate(); d++) {
-      cells.push({ num: d, inactive: false });
+      const dateObj = new Date(y, m, d);
+      dateObj.setHours(0,0,0,0);
+      const pasado = dateObj < today;
+
+      if (pasado) {
+        cells.push({ num: d, inactive: true, past: true });
+      } else {
+        cells.push({ num: d, inactive: false });
+      }
     }
 
     while (cells.length % 7 !== 0) {
@@ -210,12 +221,18 @@ export class FormularioComponent {
   }
 
   seleccionarFecha(dia: number) {
+    if (!dia) return;
+
     const fechaLocal = new Date(this.anio, this.mesIndex, dia);
+    fechaLocal.setHours(0,0,0,0);
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    if (fechaLocal < today) return; // safety: ignore past dates
 
     const yyyy = fechaLocal.getFullYear();
     const mm = String(fechaLocal.getMonth() + 1).padStart(2, '0');
     const dd = String(fechaLocal.getDate()).padStart(2, '0');
-    
+
     this.fecha = `${yyyy}-${mm}-${dd}`;
     this.diaSeleccionado = dia;
     this.cargarHorarios();

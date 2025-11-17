@@ -27,7 +27,7 @@
 
   <div class="form-group">
     <label>Zona *</label>
-    <select [(ngModel)]="zonaId" (change)="cargarMesas()" [class.input-error]="(submitted) && !(zonaId && zonaId.trim())">
+    <select [(ngModel)]="zonaId" (change)="cargarMesas(); cargarHorarios(id || undefined);" [class.input-error]="(submitted) && !(zonaId && zonaId.trim())">
       <option value="">Seleccione una zona...</option>
       <option *ngFor="let z of zonas" [value]="z.id">{{ z.nombre }}</option>
     </select>
@@ -38,10 +38,13 @@
   <div class="form-group">
     <label>Mesa</label>
     <select [(ngModel)]="mesaId">
-      <option value="">Ninguna</option>
-      <option *ngFor="let m of mesas" [value]="m.id">{{ m.nombre }}</option>
+      <option value="">Ninguna (dejar para auto-asignación)</option>
+      <option *ngFor="let m of mesas" [value]="m.id" [disabled]="m.disabled">
+        {{ m.label }}
+      </option>
     </select>
-    <small class="help-text">Selecciona una mesa </small>
+    <small class="help-text">Selecciona una mesa (si la dejas en "Ninguna" el sistema asignará una disponible automáticamente).</small>
+    <p *ngIf="errorMessage" class="error-text">{{ errorMessage }}</p>
   </div>
     
   <div class="cantidad-container" style="min-width:120px;">
@@ -56,13 +59,19 @@
     <div style="display:flex;gap:12px;flex-wrap:wrap;">
       <div style="min-width:180px;">
         <label>Fecha *</label>
-        <input type="date" [(ngModel)]="fecha" [class.input-error]="submitted && !fecha">
+        <input type="date" [(ngModel)]="fecha" [class.input-error]="submitted && !fecha" (change)="onFechaChange()">
         <small *ngIf="submitted && !fecha" class="error-text">Se requiere fecha.</small>
       </div>
 
       <div style="min-width:120px;">
-        <label>Hora *</label>
-        <input type="time" [(ngModel)]="hora" [class.input-error]="submitted && !hora">
+        <label>Horario *</label>
+          <select [(ngModel)]="hora" (change)="onHoraSelect()" [disabled]="horariosDisponibles.length === 0" [class.input-error]="submitted && !hora">
+            <option value="">Seleccione un horario...</option>
+            <option *ngFor="let h of horariosDisponibles" [value]="h">{{ h }}</option>
+          </select>
+        <small *ngIf="horariosDisponibles.length === 0" class="help-text">
+          No hay horarios disponibles para la zona/fecha seleccionadas.
+        </small>
         <small *ngIf="submitted && !hora" class="error-text">Se requiere hora.</small>
       </div>
   </div>
